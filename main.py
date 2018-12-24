@@ -12,9 +12,10 @@ storage_client = storage.Client()
 bucket_name = 'locationviz-1536759384444-vcm'
 project_id = os.getenv('PROJECT_ID')
 region_name = os.getenv('REGION_NAME')
-dataset_name = 'TEST'
+dataset_name = 'TEST_DATASET'
+model_name = 'IMAGE_MODEL'
 csv_file_name = 'images.csv'
-
+train_budget = 1
 
 # Engine to scrap images
 food_list = ['bak chor mee', 'wanton mee', 'prawn mee', 'lor mee', 'mee siam']
@@ -28,16 +29,16 @@ idx = 0
 bucket = storage_client.bucket(bucket_name)
 # First, we read each individual directory
 upload_food_image_excel(bucket, bucket_name, food_list, csv_file_name)
-
-# We need to create the dataset automatically if it does not exist
 automl_client = automl.AutoMlClient()
 project_location = automl_client.location_path(project_id, region_name)
+# Define the classification_type
 classification_type = 'MULTICLASS'
 dataset_metadata = { 'classification_type': classification_type }
 dataset_config = {
     'display_name': dataset_name,
     'image_classification_dataset_metadata': dataset_metadata
 }
+# Create a new automl dataset programatically
 dataset = automl_client.create_dataset(project_location, dataset_config)
 dataset_id = dataset.name.split('/')[-1]
 
@@ -54,4 +55,12 @@ print("Processing import...")
 # synchronous check of operation status.
 print("Data imported. {}".format(response.result()))
 
+image_recognition_model = {
+    'display_name': model_name,
+    'dataset_id': dataset_id,
+    'image_classification_model_metadata': { "train_budget": train_budget }
+}
 
+response = automl_client.create_model(project_location, image_recognition_model)
+print("Training operation name: {}".format(response.operation.name))
+print("Training started...")
