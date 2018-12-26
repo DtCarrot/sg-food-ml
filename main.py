@@ -11,6 +11,7 @@ from scrap_food_images import scrap_food_images
 storage_client = storage.Client()
 bucket_name = 'locationviz-1536759384444-vcm'
 project_id = os.getenv('PROJECT_ID')
+bucket_name = project_id + '-vcm'
 region_name = os.getenv('REGION_NAME')
 dataset_name = 'TEST_DATASET'
 model_name = 'IMAGE_MODEL'
