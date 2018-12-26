@@ -4,7 +4,7 @@ This script is used to scrap images from the Internet to classify 5 common noodl
 
 After scraping, the script will automatically upload the images to the indicated Google Cloud Storage bucket and import them into the AutoML dataset. It will then automatically create a new model (train the dataset) which will take a while.
 
-I have written an [article](https://blog.darrenong.me/classifying-the-different-type-of-singapore-noodle-mee-dishes-using-googles-openml/) to explain in detail how this script works.
+I have written an [article](https://blog.darrenong.me/classifying-the-different-type-of-singapore-noodle-mee-dishes-using-google-automl/) to explain in detail how this script works.
 
 ## Prediction
 

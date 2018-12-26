@@ -42,7 +42,6 @@ def upload_food_image_excel(bucket, bucket_name, food_list, csv_file_name):
         print('Successfully uploaded: {0}', remote_file_name)
 
     # Save the excel file without row and column header
-    csv_file_name = 'images.csv'
     df.to_csv(csv_file_name, header=False, index=False)
     # Upload csv to google cloud
     blob = bucket.blob(csv_file_name)
